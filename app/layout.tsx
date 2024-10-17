@@ -15,3 +15,5 @@ export default function RootLayout({
     </html>
   );
 }
+
+//NEXT_PUBLIC_WEATHER_KEY = 402d7bcffdd39c5acbb0c9b7f4f30984
