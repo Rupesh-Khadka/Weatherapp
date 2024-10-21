@@ -1,24 +1,21 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Image from "next/image";
-import Bg from "@/Public/chan-hoi-uj-w-v7OFT4-unsplash.jpg";
-import { BackgroundImage } from "@/constants";
-
-interface Props {
-  src: string;
-  width: number;
-  height: number;
-  index: number;
-}
+import { BackgroundImage } from "@/constants/index";
 
 const Hero = () => {
-  const bgImage = BackgroundImage[0];
-  const [city, setCity] = useState("");  
-  const [weather, setWeather] = useState(null);
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=bhaktapur&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`;
+
+
+
+  const [bgImage, setBgImage] = useState<string>(BackgroundImage[0].src); // Default background
+  const [city, setCity] = useState("");
+  const [weather, setWeather] = useState<any>(null); //Default Null
+
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`;
 
   const fetchData = async () => {
+    if (!city) return; // Prevent fetch if city is empty
     try {
       const res = await axios.get(url);
       setWeather(res.data);
@@ -28,16 +25,28 @@ const Hero = () => {
     }
   };
 
+  useEffect(() => {
+    if (weather) {
+      const condition = weather.weather[0].main; // Get the main weather condition
+      const background =
+        BackgroundImage.find((bg) => bg.name === condition)?.src ||
+        BackgroundImage[0].src;
+      setBgImage(background);
+    }
+  }, [weather]); // Trigger this effect when weather changes
+
   return (
-    <div className="absolute flex flex-col h-full w-full top-0 right-0 bottom-0 z-[1]">
-      <Image
-        src={bgImage.src}
-        alt={bgImage.skill_name}
-        fill
-        className="object-cover"
-      />
-      <div className="relative flex flex-col items-center justify-center z-[20]">
-        <p>Weather App</p>
+    <div
+      className="flex items-center justify-center h-screen w-full"
+      style={{
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      <div className="absolute flex flex-col items-center justify-center z-[20] bg-black bg-opacity-30 p-8">
+        <h1 className="text-2xl text-white">Weather App</h1>
         <input
           type="search"
           value={city}
@@ -51,6 +60,16 @@ const Hero = () => {
         >
           Search
         </button>
+        {weather && (
+          <div className="mt-4 text-white">
+            <p className="text-xl">{city}</p>
+            <p className="text-xl">{weather.name}</p>
+            <p className="text-lg">{weather.weather[0].description}</p>
+            <p className="text-lg">
+              Temperature: {Math.round(weather.main.temp - 273.15)} °C
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
