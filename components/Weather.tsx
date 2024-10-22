@@ -1,9 +1,26 @@
 import React from "react";
 
-interface data {}
+interface WeatherData {
+  main: {
+    temp: number;
+    humidity: number;
+    pressure: number;
+  };
+  weather: {
+    main: string;
+    description: string;
+    icon: string;
+  }[];
+  dt: number;
+  name: string;
+}
 
-const Weather = ({ data }) => {
-  const kelvinToCelsius = (temp) => (temp - 273.15).toFixed(2);
+interface WeatherProps {
+  data: WeatherData;
+}
+
+const Weather: React.FC<WeatherProps> = ({ data }) => {
+  const kelvinToCelsius = (temp: number) => (temp - 273.15).toFixed(2);
   const temperature = kelvinToCelsius(data.main.temp);
 
   // Convert Unix timestamp to readable time
@@ -13,6 +30,8 @@ const Weather = ({ data }) => {
   };
 
   const time = convertTime(data.dt);
+  const iconCode = data.weather[0]?.icon || ""; //Get the icon code
+  const iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
 
   return (
     <div className="text-white mt-4">
@@ -21,6 +40,7 @@ const Weather = ({ data }) => {
       <p>Humidity: {data.main.humidity}%</p>
       <p>Pressure: {data.main.pressure} hPa</p>
       <p>Condition: {data.weather[0].main}</p>
+      <img src={iconUrl} alt={data.weather[0].main} className="weather-icon" />
       <p>Time:{time}</p>
     </div>
   );

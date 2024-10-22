@@ -2,11 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { BackgroundImage } from "@/constants/index";
+import {  DayBackgroundImage } from "@/constants/index";
 import Weather from "../Weather";
 
 const Hero = () => {
-  const [bgImage, setBgImage] = useState<string>(BackgroundImage[0].src); // Default background
+  const [bgImage, setBgImage] = useState<string>(DayBackgroundImage[0].src); // Default background
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState<any>(null); //Default Null
 
@@ -28,8 +28,8 @@ const Hero = () => {
     if (weather) {
       const condition = weather.weather[0].main; // Get the main weather condition
       const background =
-        BackgroundImage.find((bg) => bg.name === condition)?.src ||
-        BackgroundImage[0].src;
+        DayBackgroundImage.find((bg) => bg.name === condition)?.src ||
+        DayBackgroundImage[0].src;
       setBgImage(background);
     }
   }, [weather]); // Trigger this effect when weather changes
