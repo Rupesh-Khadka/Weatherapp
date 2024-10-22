@@ -3,11 +3,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { BackgroundImage } from "@/constants/index";
+import Weather from "../Weather";
 
 const Hero = () => {
-
-
-
   const [bgImage, setBgImage] = useState<string>(BackgroundImage[0].src); // Default background
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState<any>(null); //Default Null
@@ -20,6 +18,7 @@ const Hero = () => {
       const res = await axios.get(url);
       setWeather(res.data);
       console.log(res.data);
+      setCity('');
     } catch (error) {
       console.error("Error in fetching data", error);
     }
@@ -60,16 +59,11 @@ const Hero = () => {
         >
           Search
         </button>
-        {weather && (
-          <div className="mt-4 text-white">
-            <p className="text-xl">{city}</p>
-            <p className="text-xl">{weather.name}</p>
-            <p className="text-lg">{weather.weather[0].description}</p>
-            <p className="text-lg">
-              Temperature: {Math.round(weather.main.temp - 273.15)} °C
-            </p>
-          </div>
-        )}
+
+        
+        {/* WEATHER DETAILS */}
+
+        {weather && <Weather data={weather} />}
       </div>
     </div>
   );
