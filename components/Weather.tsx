@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface WeatherData {
   main: {
@@ -72,7 +73,10 @@ const Weather: React.FC<WeatherProps> = ({ data }) => {
             <p className="text-5xl pt-2 font-semibold font-sans">{data.name}</p>
             <div className="flex">
               <p className="pt-1 text-2xl font-semibold font-sans"> {time} </p>
-              <p className="pt-1 text-2xl font-semibold font-sans"> {dayNight} </p>
+              <p className="pt-1 text-2xl font-semibold font-sans">
+                {" "}
+                {dayNight}{" "}
+              </p>
               <p className="pt-1 pl-2 text-2xl font-semibold font-sans">
                 {day}
               </p>
@@ -85,9 +89,11 @@ const Weather: React.FC<WeatherProps> = ({ data }) => {
             transition={{ type: "spring", stiffness: 80, delay: 1.9 }}
             className="flex   lg:flex-col  md:flex-row"
           >
-            <img
+           <Image
               src={iconUrl}
               alt={data.weather[0].description}
+              width={100}  
+              height={100}
               className="weather-icon text-white"
             />
             <p className="text-lg pt-8 sm:pt-8 md:pt-8 lg:pt-0 font-sans font-semibold pl-6">
