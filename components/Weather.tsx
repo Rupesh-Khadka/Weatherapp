@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 interface WeatherData {
   main: {
@@ -49,15 +50,25 @@ const Weather: React.FC<WeatherProps> = ({ data }) => {
   const dayNight = getDayNight(); // GET DAYS or NIGHT
 
   return (
-    <div className="h-screen w-full  flex justify-between text-white  ">
-      <div className="flex items-end py-10 px-12 w-full ">
-        <div className="  h-38  w-1/2 flex ">
+    <div className="h-screen w-full  flex justify-between  text-white pb-6 sm:pb-0 lg:pb-0 md:pb-0 ">
+      <div className="flex items-end py-10  w-full  ">
+        <div className="  h-38  md:w-1/2 lg:w-1/2 w-full justify-center items-center  flex-wrap flex  md:flex-col lg:flex-row overflow-hidden ">
           {/* For TEMPERATUE */}
-          <div className="item-end flex h-full ">
+          <motion.div
+            initial={{ x: "-100vw" }}
+            animate={{ x: 0 }}
+            transition={{ type: "spring", stiffness: 80, delay: 1.9 }}
+            className="item-end flex h-full "
+          >
             <h1 className="text-9xl  font-semibold">{temperature}°C </h1>
-          </div>
+          </motion.div>
           {/* FOR TIME DAY */}
-          <div className="pl-6 pt-4 flex flex-col ">
+          <motion.div
+            initial={{ x: "-100vw" }}
+            animate={{ x: 0 }}
+            transition={{ type: "spring", stiffness: 80, delay: 1.8 }}
+            className="pl-6 pt-4 flex flex-col "
+          >
             <p className="text-5xl pt-2 font-semibold font-sans">{data.name}</p>
             <div className="flex">
               <p className="pt-1 text-2xl font-semibold font-sans"> {time} </p>
@@ -65,28 +76,25 @@ const Weather: React.FC<WeatherProps> = ({ data }) => {
                 {day}
               </p>
             </div>
-          </div>
-          <div className="">
+          </motion.div>
+          {/* IMAGE */}
+          <motion.div
+            initial={{ x: "-100vw" }}
+            animate={{ x: 0 }}
+            transition={{ type: "spring", stiffness: 80, delay: 1.9 }}
+            className="flex   lg:flex-col  md:flex-row"
+          >
             <img
               src={iconUrl}
               alt={data.weather[0].description}
               className="weather-icon text-white"
             />
-            <p className=" border-2 text-lg  font-sans font-semibold pl-6">
+            <p className="text-lg pt-8 sm:pt-8 md:pt-8 lg:pt-0 font-sans font-semibold pl-6">
               {data.weather[0].main}
             </p>
-          </div>
+          </motion.div>
         </div>
       </div>
-
-      {/* RIGHT SECTION */}
-      {/* <div className="border-2 w-1/3 backdrop-blur-md pl-24 shadow-black shadow-lg border-none flex flex-col  justify-center  ">
-        <h1 className="text-5xl font-bold py-4 font-sans">{data.name}</h1>
-
-        <p>Humidity: {data.main.humidity}%</p>
-        <p>Pressure: {data.main.pressure} hPa</p>
-        <p className="">{dayNight}</p>
-      </div> */}
     </div>
   );
 };

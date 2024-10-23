@@ -4,16 +4,21 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { DayBackgroundImage, NightBackgroundImage } from "@/constants/index";
 import Weather from "../Weather";
+import { motion } from "framer-motion";
 
 const Hero = () => {
   const [bgImage, setBgImage] = useState<string>(DayBackgroundImage[0].src); // Default background
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState<any>(null); //Default Null
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
 
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`;
 
   const fetchData = async () => {
     if (!city) return; // Prevent fetch if city is empty
+    setLoading(true);
+    setError(false);
     try {
       const res = await axios.get(url);
       setWeather(res.data);
@@ -21,6 +26,11 @@ const Hero = () => {
       setCity("");
     } catch (error) {
       console.error("Error in fetching data", error);
+      setError(true);
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
     }
   };
 
@@ -50,23 +60,47 @@ const Hero = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="absolute border-2 w-1/3 h-full backdrop-blur-md pl-24 shadow-black shadow-lg border-none flex flex-col items-center justify-center 8">
-        <h1 className="text-3xl font-semibold pb-4 text-white">Weather App</h1>
-        <input
+      <motion.div
+        initial={{ y: -800 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 1 }}
+        className="absolute p-8 w-full sm:w-full md:w-1/2 lg:w-1/3 md:h-full lg:h-full backdrop-blur-md shadow-black shadow-xl border-none flex flex-col items-center md:justify-center lg:items-center  overflow-hidden"
+      >
+        <motion.div
+          initial={{ x: "100vw" }}
+          animate={{ x: 0 }}
+          transition={{ type: "spring", stiffness: 80, delay: 1.5 }}
+          className="text-5xl  sm:text-4xl font-semibold pb-4 text-white text-center"
+        >
+          Weather App
+        </motion.div>
+        {error && (
+          <div className="text-sm font-bold text-red-700 mt-2">
+            * Please enter the correct city name
+          </div>
+        )}
+        <motion.input
+          initial={{ x: "100vw" }}
+          animate={{ x: 0 }}
+          transition={{ type: "spring", stiffness: 80, delay: 1.7 }}
           type="search"
           value={city}
-          onChange={(e) => setCity(e.target.value)} // Added onChange handler
-          placeholder="Enter city name..."
-          className="ml-2 p-2 rounded-xl   "
+          onChange={(e) => setCity(e.target.value)}
+          placeholder="Type a city name to get the weather..."
+          className={`ml-2 p-3 rounded-xl w-1/2 md:w-1/2 lg:w-1/2 text-black ${
+            error ? "border-2 border-red-500" : ""
+          }`}
         />
-        <button
+        <motion.button
+          initial={{ x: "100vw" }}
+          animate={{ x: 0 }}
+          transition={{ type: "spring", stiffness: 80, delay: 1 }}
           onClick={fetchData}
-          className="mt-4 p-2 font-semibold   bg-gray-300 text-black rounded transition duration-300 ease-in-out delay-50 transform hover:bg-gray-500 hover:scale-105"
+          className="mt-4 p-2 font-semibold bg-gray-400 text-black rounded-lg transition duration-300 ease-in-out delay-50 transform hover:bg-gray-500 hover:scale-105"
         >
           Search
-        </button>
-      </div>
-        {/* WEATHER DETAILS */}
+        </motion.button>
+      </motion.div>
       {weather && <Weather data={weather} />}
     </div>
   );
