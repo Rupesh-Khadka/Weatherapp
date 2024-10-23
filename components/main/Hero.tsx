@@ -50,6 +50,10 @@ const Hero = () => {
     }
   }, [weather]); // Trigger this effect when weather changes
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCity(e.target.value);
+  };
+
   return (
     <div
       className="flex flex-col items-end h-screen w-full "
@@ -85,7 +89,7 @@ const Hero = () => {
           transition={{ type: "spring", stiffness: 80, delay: 1.7 }}
           type="search"
           value={city}
-          onChange={(e) => setCity(e.target.value)}
+          onChange={handleChange}
           placeholder="Type a city name to get the weather..."
           className={`ml-2 p-3 rounded-xl w-1/2 md:w-1/2 lg:w-1/2 text-black ${
             error ? "border-2 border-red-500" : ""

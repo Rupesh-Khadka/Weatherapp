@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface WeatherData {
   main: {
@@ -84,7 +85,7 @@ const Weather: React.FC<WeatherProps> = ({ data }) => {
             transition={{ type: "spring", stiffness: 80, delay: 1.9 }}
             className="flex   lg:flex-col  md:flex-row"
           >
-            <img
+            <Image
               src={iconUrl}
               alt={data.weather[0].description}
               className="weather-icon text-white"
