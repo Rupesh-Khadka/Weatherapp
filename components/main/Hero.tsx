@@ -49,7 +49,11 @@ const Hero = () => {
       setBgImage(background);
     }
   }, [weather]); // Trigger this effect when weather changes
- 
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCity(e.target.value);
+  };
+
   return (
     <div
       className="flex flex-col items-end h-screen w-full "
@@ -80,7 +84,9 @@ const Hero = () => {
           </div>
         )}
         {loading ? ( // Conditional rendering for loading screen
-          <div className="text-lg font-semibold text-white duration-0" >Loading...</div> // Loading message
+          <div className="text-lg font-semibold text-white duration-0">
+            Loading...
+          </div> // Loading message
         ) : (
           <>
             <motion.input
@@ -89,7 +95,7 @@ const Hero = () => {
               transition={{ type: "spring", stiffness: 80, delay: 1.7 }}
               type="search"
               value={city}
-              onChange={(e:any) => setCity(e.target.value)}
+              onChange={handleChange}
               placeholder="Type a city name to get the weather..."
               className={`ml-2 p-3 rounded-xl w-1/2 md:w-1/2 lg:w-1/2 text-black ${
                 error ? "border-2 border-red-500" : ""
