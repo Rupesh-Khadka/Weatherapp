@@ -6,6 +6,23 @@ import { DayBackgroundImage, NightBackgroundImage } from "@/constants/index";
 import Weather from "../Weather";
 import { motion } from "framer-motion";
 
+interface WeatherData {
+  main: {
+    temp: number;
+    humidity: number;
+    pressure: number;
+  };
+  weather: {
+    main: string;
+    description: string;
+    icon: string;
+  }[];
+  dt: number;
+  name: string;
+}
+
+ 
+
 const Hero = () => {
   const [bgImage, setBgImage] = useState<string>(DayBackgroundImage[0].src); // Default background
   const [city, setCity] = useState("");
