@@ -73,7 +73,7 @@ const Weather: React.FC<WeatherProps> = ({ data }) => {
             <p className="text-5xl pt-2 font-semibold font-sans">{data.name}</p>
             <div className="flex">
               <p className="pt-1 text-2xl font-semibold font-sans"> {time} </p>
-              <p className="pt-1 text-2xl font-semibold font-sans">
+              <p className="pt-1 text-2xl font-semibold font-sans pl-2">
                 {" "}
                 {dayNight}{" "}
               </p>
