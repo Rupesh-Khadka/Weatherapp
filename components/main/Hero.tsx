@@ -30,7 +30,7 @@ const Hero = () => {
     } finally {
       setTimeout(() => {
         setLoading(false);
-      }, 2000);
+      }, 1000);
     }
   };
 
@@ -79,27 +79,33 @@ const Hero = () => {
             * Please enter the correct city name
           </div>
         )}
-        <motion.input
-          initial={{ x: "100vw" }}
-          animate={{ x: 0 }}
-          transition={{ type: "spring", stiffness: 80, delay: 1.7 }}
-          type="search"
-          value={city}
-          onChange={((e:any)=>setCity(e.target.value))}
-          placeholder="Type a city name to get the weather..."
-          className={`ml-2 p-3 rounded-xl w-1/2 md:w-1/2 lg:w-1/2 text-black ${
-            error ? "border-2 border-red-500" : ""
-          }`}
-        />
-        <motion.button
-          initial={{ x: "100vw" }}
-          animate={{ x: 0 }}
-          transition={{ type: "spring", stiffness: 80, delay: 1 }}
-          onClick={fetchData}
-          className="mt-4 p-2 font-semibold bg-gray-400 text-black rounded-lg transition duration-300 ease-in-out delay-50 transform hover:bg-gray-500 hover:scale-105"
-        >
-          Search
-        </motion.button>
+        {loading ? ( // Conditional rendering for loading screen
+          <div className="text-lg font-semibold text-white duration-0" >Loading...</div> // Loading message
+        ) : (
+          <>
+            <motion.input
+              initial={{ x: "100vw" }}
+              animate={{ x: 0 }}
+              transition={{ type: "spring", stiffness: 80, delay: 1.7 }}
+              type="search"
+              value={city}
+              onChange={(e:any) => setCity(e.target.value)}
+              placeholder="Type a city name to get the weather..."
+              className={`ml-2 p-3 rounded-xl w-1/2 md:w-1/2 lg:w-1/2 text-black ${
+                error ? "border-2 border-red-500" : ""
+              }`}
+            />
+            <motion.button
+              initial={{ x: "100vw" }}
+              animate={{ x: 0 }}
+              transition={{ type: "spring", stiffness: 80, delay: 1 }}
+              onClick={fetchData}
+              className="mt-4 p-2 font-semibold bg-gray-400 text-black rounded-lg transition duration-300 ease-in-out delay-50 transform hover:bg-gray-500 hover:scale-105"
+            >
+              Search
+            </motion.button>
+          </>
+        )}
       </motion.div>
       {weather && <Weather data={weather} />}
     </div>
